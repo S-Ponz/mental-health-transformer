@@ -8,6 +8,7 @@ class Tokenizer:
     def __init__(self, tokenizer_path=Config.tokenizer_path):
 
         self.tokenizer = None
+        self.tokenizer_path = tokenizer_path
         if os.path.exists(tokenizer_path):
             self.tokenizer = BertTokenizerFast.from_pretrained(tokenizer_path)
     
@@ -22,12 +23,14 @@ class Tokenizer:
             special_tokens=list(Config.special_tokens)
         )
 
-        if not os.path.exists(Config.tokenizer_path):
-            os.makedirs(Config.tokenizer_path, exist_ok=True)
+        if not os.path.exists(self.tokenizer_path):
+            os.makedirs(self.tokenizer_path, exist_ok=True)
 
-        tokenizer.save_model(Config.tokenizer_path)
+        tokenizer.save_model(self.tokenizer_path)
 
-        self.tokenizer = BertTokenizerFast.from_pretrained(Config.tokenizer_path)
+        self.tokenizer = BertTokenizerFast.from_pretrained(self.tokenizer_path)
 
         print(f"{len(self.tokenizer)} tokens in the vocabulary")
+
+      
 

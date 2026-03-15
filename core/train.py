@@ -1,6 +1,8 @@
+import json
 import torch
 import torch.nn as nn
 import numpy as np
+import argparse
 from sklearn.metrics import accuracy_score
 
 from scripts import preprocess_data
@@ -69,6 +71,7 @@ def evaluate(model, loader, criterion, device):
 def train(model, train_loader, val_loader, optimizer, criterion, device=Config.device, num_epochs=Config.num_epochs):
 
     best_val_acc = 0.0
+    train_epoch_losses, train_epoch_accs, val_epoch_losses, val_epoch_accs = [],[],[],[]
     for epoch in range(num_epochs):
         train_loss, train_acc = train_one_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, val_acc, _, _ = evaluate(model, val_loader, criterion, device)
@@ -77,13 +80,32 @@ def train(model, train_loader, val_loader, optimizer, criterion, device=Config.d
         print(f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f}")
         print(f"Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.4f}")
 
+        train_epoch_losses.append(train_loss)
+        train_epoch_accs.append(train_acc)
+        val_epoch_losses.append(val_loss)
+        val_epoch_accs.append(val_acc)
+
         if val_acc > best_val_acc:
             best_val_acc = val_acc
             torch.save(model.state_dict(), Config.model_save_path)
             print("Best model saved!")
 
 
+    train_metrics = {'train_epoch_losses':train_epoch_losses,
+                     'train_epoch_accs':train_epoch_accs,
+                     'val_epoch_losses':val_epoch_losses,
+                     'val_epoch_accs':val_epoch_accs}
+    
+    with open(f"{Config.log_save_path}/train_stats.json","w") as f:
+        json.dump(train_metrics, f, indent=2)
+
 if __name__ == "__main__":
+
+
+    parser = argparse.ArgumentParser(description="A script that runs text through a trained mental health transformer to be categorized.")
+    parser.add_argument("--epochs", type=int, help="Number of training epochs.", default=Config.num_epochs)
+    
+    args = parser.parse_args()    
 
     print("Preprocessing data...")
     preprocess_data.preprocess_data(reprocess=True)
@@ -119,5 +141,5 @@ if __name__ == "__main__":
     optimizer = torch.optim.Adam(model.parameters(), lr=Config.learning_rate)
 
     print("Starting training...")
-    train(model, train_loader, val_loader, optimizer, criterion)
+    train(model, train_loader, val_loader, optimizer, criterion, num_epochs=args.epochs)
 

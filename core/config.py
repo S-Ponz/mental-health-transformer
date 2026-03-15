@@ -27,6 +27,8 @@ class Config:
         "Suicidal": 3
     }
 
+    inv_label_map = {v:k for k,v in label_map.items()}
+
     num_classes: int = 4
 
 
@@ -57,7 +59,7 @@ class Config:
     # -----------------------------
     batch_size: int = 128
     learning_rate: float = 2e-5
-    num_epochs: int = 10
+    num_epochs: int = 15
 
 
 
@@ -70,5 +72,7 @@ class Config:
     # -----------------------------
     # Output
     # -----------------------------
+    log_save_path: str = "outputs/logs"
     model_save_path: str = "models/checkpoints/best_model.pt"
-    metrics_output_path: str = "outputs/metrics/metrics.json"
+    metrics_output_dir: str = "outputs/metrics"
+    plot_output_dir: str = "outputs/plots"

@@ -3,6 +3,7 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 
 from core.config import Config
+from scripts.preprocess_data import cleanse
 
 class TextDataset(Dataset):
     def __init__(self, df, tokenizer, max_len=Config.max_length):
@@ -48,3 +49,10 @@ def get_dataloaders(tokenizer, batch_size=Config.batch_size, max_len=Config.max_
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     return train_loader, val_loader
+
+
+def get_inference_dataloader(df:pd.DataFrame, tokenizer, batch_size=Config.batch_size, max_len=Config.max_length):
+
+    ds = TextDataset(df, tokenizer, max_len=max_len)
+
+    return DataLoader(ds, batch_size=batch_size, shuffle=False)    
