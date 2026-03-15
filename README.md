@@ -81,9 +81,9 @@ python -m core.train --epochs=1
 ## Evaluating the Model
 Run Evaluation:
 ```bash
-python -m core.evaluate --file_path="E:/Code/School/mental-health-transformer/data/raw/mental_health_combined_test.csv" --text_column="text" --label_column="status"
+python -m core.evaluate --file_path="data/raw/mental_health_combined_test.csv" --text_column="text" --label_column="status"
 
-python -m core.evaluate --file_path="E:/Code/School/mental-health-transformer/data/raw/mental_heath_unbanlanced.csv" --text_column="text" --label_column="status"
+python -m core.evaluate --file_path="data/raw/mental_heath_unbanlanced.csv" --text_column="text" --label_column="status"
 ```
 Evaluation outputs include:
 * Accuracy

@@ -1,3 +1,22 @@
+# =============================================================================
+# tokenizer.py
+# -----------------------------------------------------------------------------
+# Wraps a custom WordPiece tokenizer trained on the project's own text corpus.
+#
+# The Tokenizer class:
+#   - On instantiation, attempts to load a previously saved tokenizer from
+#     Config.tokenizer_path. If none exists, self.tokenizer is set to None.
+#   - train() trains a BertWordPieceTokenizer from scratch on the processed
+#     training text (Config.tokenizer_data_path), using the vocabulary size,
+#     minimum token frequency, and special tokens defined in Config. The
+#     trained vocabulary is saved to disk and reloaded as a BertTokenizerFast
+#     for fast batch encoding.
+#
+# Using a domain-trained tokenizer (rather than a pre-trained one) means the
+# vocabulary is tuned to the language patterns found in mental-health text,
+# resulting in more efficient tokenization of relevant terms.
+# =============================================================================
+
 import os
 from tokenizers import BertWordPieceTokenizer
 from transformers import BertTokenizerFast

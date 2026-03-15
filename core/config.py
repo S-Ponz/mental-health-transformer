@@ -1,3 +1,21 @@
+# =============================================================================
+# config.py
+# -----------------------------------------------------------------------------
+# Central configuration for the entire project. All hyperparameters, file
+# paths, and dataset settings live here as a single dataclass so that every
+# other module can import one object (Config) rather than scattering magic
+# numbers and strings throughout the codebase.
+#
+# Key sections:
+#   - Dataset paths and column names
+#   - Label map (string category <-> integer index)
+#   - Tokenizer settings (vocabulary size, special tokens, sequence length)
+#   - Model architecture parameters (embedding dim, heads, layers)
+#   - Training hyperparameters (batch size, learning rate, epochs)
+#   - Hardware (auto-selects GPU if available)
+#   - Output directories for logs, checkpoints, metrics, and plots
+# =============================================================================
+
 from dataclasses import dataclass, field
 import torch
 

@@ -1,3 +1,23 @@
+# =============================================================================
+# preprocess_data.py
+# -----------------------------------------------------------------------------
+# Responsible for turning raw CSV data into clean, model-ready datasets.
+#
+# Two main functions:
+#   cleanse(s)        - Sanitizes a single string: strips non-ASCII characters,
+#                       removes URLs, normalizes whitespace, and lowercases.
+#   cleanse_data(df)  - Applies cleanse() to a full DataFrame, standardizes
+#                       column names, drops nulls/empty rows, normalizes label
+#                       variants (e.g. "stress" -> "Anxiety"), and encodes
+#                       string labels to integer indices via Config.label_map.
+#   preprocess_data() - Orchestrates the full pipeline: reads the raw train/val
+#                       and test CSVs, calls cleanse_data(), performs a
+#                       stratified train/val split, and writes the three
+#                       processed CSVs plus a plain-text file used to train
+#                       the tokenizer. Skips re-processing if outputs already
+#                       exist unless reprocess=True is passed.
+# =============================================================================
+
 import os, re
 import pandas as pd
 from sklearn.model_selection import train_test_split

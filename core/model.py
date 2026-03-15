@@ -1,3 +1,25 @@
+# =============================================================================
+# model.py
+# -----------------------------------------------------------------------------
+# Defines the transformer architecture used for mental-health text
+# classification, built from scratch using PyTorch primitives.
+#
+# Components (bottom to top):
+#   PositionalEncoding      - Learned position embeddings added to token
+#                             embeddings so the model knows token order.
+#   MultiHeadSelfAttention  - Scaled dot-product attention split across
+#                             multiple heads. Supports a padding mask to
+#                             prevent the model attending to [PAD] tokens.
+#   TransformerLayer        - One encoder block: self-attention followed by a
+#                             position-wise feed-forward network, each wrapped
+#                             with a residual connection and layer norm.
+#   TransformerClassifier   - Full model: token embedding -> positional
+#                             encoding -> N stacked TransformerLayers -> take
+#                             the [CLS] token representation (position 0) ->
+#                             linear classifier head producing logits over the
+#                             four mental-health categories.
+# =============================================================================
+
 import math
 import torch
 import torch.nn as nn

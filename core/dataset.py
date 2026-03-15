@@ -1,3 +1,22 @@
+# =============================================================================
+# dataset.py
+# -----------------------------------------------------------------------------
+# Defines the PyTorch Dataset and DataLoader helpers used throughout training,
+# validation, and evaluation.
+#
+# TextDataset    - A map-style Dataset that holds text strings and integer
+#                  labels. Each call to __getitem__ tokenizes the text on the
+#                  fly (truncation + padding to Config.max_length) and returns
+#                  a dict of input_ids, attention_mask, and label tensors.
+#
+# get_dataloaders()          - Reads the processed train and validation CSVs,
+#                              wraps them in TextDataset, and returns two
+#                              DataLoaders (train shuffled, val ordered).
+# get_inference_dataloader() - Accepts an arbitrary DataFrame and returns a
+#                              single ordered DataLoader, used during evaluation
+#                              and inference where row order must be preserved.
+# =============================================================================
+
 import torch
 from torch.utils.data import Dataset, DataLoader
 import pandas as pd

@@ -1,3 +1,24 @@
+# =============================================================================
+# inference.py
+# -----------------------------------------------------------------------------
+# Provides a lightweight interface for running the trained model on new,
+# unlabelled text at inference time (no ground-truth labels required).
+#
+# run_inference(texts, labels) workflow:
+#   1. Load the saved tokenizer and model checkpoint.
+#   2. Accept a list of raw text strings (and optionally true labels; defaults
+#      to "Normal" placeholders so the DataLoader format is satisfied).
+#   3. Cleanse and tokenize the texts, then pass them through the model.
+#   4. Return a list of (predicted_label, confidence) tuples — one per input.
+#
+# Intended use-cases:
+#   - Interactive demos or APIs that classify a single piece of text.
+#   - Batch scoring of new data where labels are not yet known.
+#
+# Run directly (python -m core.inference --text "...") to classify a single
+# string from the command line.
+# =============================================================================
+
 import os
 import torch
 import argparse

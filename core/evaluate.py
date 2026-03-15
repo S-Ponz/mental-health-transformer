@@ -1,3 +1,29 @@
+# =============================================================================
+# evaluate.py
+# -----------------------------------------------------------------------------
+# Runs a trained model against a labelled CSV dataset and produces both
+# quantitative metrics and visual plots.
+#
+# run_evaluation(file_path) workflow:
+#   1. Load the saved tokenizer and model checkpoint.
+#   2. Read and cleanse the CSV, build an inference DataLoader.
+#   3. Pass all batches through the model (no gradients), collecting
+#      predictions, max softmax probabilities, and true labels.
+#   4. Compute overall accuracy, average cross-entropy loss, and a full
+#      per-class classification report (precision, recall, F1, support).
+#   5. Save all metrics to outputs/metrics/<filename>.json.
+#   6. Generate and save five Plotly charts to outputs/plots/:
+#        - Training loss & accuracy curves (if train_stats.json exists)
+#        - Confusion matrix
+#        - Per-class precision / recall / F1 bar chart
+#        - Confidence distribution violin plot per class
+#        - Example predictions table (correct & incorrect samples)
+#        - Accuracy and sample retention vs. confidence threshold
+#
+# Run directly (python -m core.evaluate --file_path <csv>) to evaluate from
+# the command line.
+# =============================================================================
+
 import os
 import json
 import numpy as np
@@ -18,6 +44,7 @@ from scripts.plotting import (
     plot_per_class_metrics,
     plot_probability_distribution,
     plot_example_predictions,
+    plot_threshold_analysis,
 )
 
 
@@ -122,6 +149,7 @@ def run_evaluation(file_path:str, text_column:str=Config.text_column, label_colu
     plot_per_class_metrics(class_report, PLOT_DIR, file_name) # type: ignore
     plot_probability_distribution(all_preds, all_probs, Config.inv_label_map, PLOT_DIR, file_name)
     plot_example_predictions(texts, all_labels, all_preds, all_probs, Config.inv_label_map, PLOT_DIR, file_name)
+    plot_threshold_analysis(all_labels, all_preds, all_probs, Config.inv_label_map, PLOT_DIR, file_name)
 
     return results, save_path
 

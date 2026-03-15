@@ -1,3 +1,27 @@
+# =============================================================================
+# train.py
+# -----------------------------------------------------------------------------
+# Contains the full training pipeline: per-epoch loops, validation, model
+# checkpointing, and saving training statistics.
+#
+# Key functions:
+#   train_one_epoch() - Runs one forward + backward pass over the training
+#                       DataLoader, updates weights, and returns average loss
+#                       and accuracy for the epoch.
+#   evaluate()        - Runs inference over a DataLoader with gradients
+#                       disabled and returns average loss, accuracy, and the
+#                       raw label/prediction arrays for further analysis.
+#   train()           - Orchestrates the full training loop for N epochs.
+#                       Saves the best model checkpoint (by validation
+#                       accuracy) to Config.model_save_path. After training
+#                       completes, writes per-epoch loss and accuracy for both
+#                       train and validation splits to
+#                       outputs/logs/train_stats.json for later plotting.
+#
+# Run directly (python -m core.train) to preprocess data, train the tokenizer
+# if needed, build the model, and start training.
+# =============================================================================
+
 import json
 import torch
 import torch.nn as nn
