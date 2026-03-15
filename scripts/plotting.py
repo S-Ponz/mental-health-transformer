@@ -53,7 +53,7 @@ label_colors = {'Normal':PRIMARY_COLOR,
 
 def _save_fig(fig: go.Figure, plot_dir: str, name: str):
     os.makedirs(plot_dir, exist_ok=True)
-    # fig.write_html(os.path.join(plot_dir, f"{name}.html"))
+    fig.write_html(os.path.join(plot_dir, f"{name}.html"))
     fig.write_image(os.path.join(plot_dir, f"{name}.png"), width=1400, height=850, scale=2)
 
 
