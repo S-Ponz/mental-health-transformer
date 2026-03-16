@@ -99,7 +99,9 @@ Examples:
 ```bash
 python -m core.inference --text="I feel like nothing matters anymore and I don't want to wake up."
 
-python -m core.inference --text="It would be kinder to everyone to just end it, why can’t I do it?I know I would be better off dead."
+python -m core.inference --text="at least for me. i can't speak for everyone but i feel no joy. no sadness. nothing. it really destroys me because i want to feel something but nothing works."
+
+python -m core.inference --text="It would be kinder to everyone to just end it, why can’t I do it? I know I would be better off dead."
 
 python -m core.inference --text="i've been feeling anxious today, but it's always a good reminder for everyone. the fear and anxious feelings and symptoms won't last forever. you are loved and cared for, and it's going to be okay. &lt;3"
 

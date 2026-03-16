@@ -118,7 +118,6 @@ class TransformerLayer(nn.Module):
         )
 
         self.norm1 = nn.LayerNorm(d_model)
-        self.norm2 = nn.LayerNorm(d_model)
 
         self.ffn = nn.Sequential(
             nn.Linear(d_model, d_model * 4),
@@ -126,6 +125,8 @@ class TransformerLayer(nn.Module):
             nn.Dropout(dropout),
             nn.Linear(d_model * 4, d_model)
         )
+
+        self.norm2 = nn.LayerNorm(d_model)        
 
         self.dropout = nn.Dropout(dropout)
 
